@@ -5,9 +5,14 @@ import './plugins/element.js'
 import './assets/global.css'
 import './assets/iconfont/iconfont.css'
 
-Vue.config.productionTip = false
+import apis from './http/api';
+import { getVM } from './http/axios'
 
-new Vue({
+Vue.config.productionTip = false
+Vue.prototype.$apis = apis
+const vm = new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+getVM(vm);
