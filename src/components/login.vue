@@ -32,8 +32,8 @@ export default {
   data: function () {
     return {
       form: {
-        username: "1234",
-        password: "1234",
+        username: "admin",
+        password: "123456",
       },
       rules: {
         username: [
@@ -45,7 +45,7 @@ export default {
           {
             min: 3,
             max: 10,
-            message: "长度在 3 到 10 个字符",
+            message: "长度在 3 到 20 个字符",
             trigger: "blur",
           },
         ],
@@ -58,7 +58,7 @@ export default {
           {
             min: 3,
             max: 10,
-            message: "长度在 3 到 10 个字符",
+            message: "长度在 3 到 20 个字符",
             trigger: "blur",
           },
         ],
@@ -67,19 +67,17 @@ export default {
   },
   methods: {
     resetForm() {
-      console.log(this)
       this.$refs.formRef.resetFields()
     },
     login() {
-      const that = this
-      this.$refs.formRef.validate(function (s, f) {
+      this.$refs.formRef.validate(async (s, f) => {
         if (s) {
-          console.log(that)
-          that.$message.success("校验通过")
-          window.sessionStorage.setItem("token", "123456789")
-          that.$router.push("/home")
+          const data = await this.$apis.login(this.form)
+          console.log(data)
+          window.sessionStorage.setItem("token", data.token)
+          this.$router.push("/home")
         } else {
-          that.$message.warning("校验失败")
+          this.$message.warning("输入校验失败")
         }
       })
     },
